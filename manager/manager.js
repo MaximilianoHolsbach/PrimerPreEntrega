@@ -68,17 +68,57 @@ export class Manager{// Creo la clase manager como administradora universal
     }
 
     async updatecart(cid,pid){
-        await this.getObjetById(cid)
-        if(this.shared.products.length == 0){
-            this.shared.products.push({"product":pid,"quantity":1})
+        await this.readFile()
+        const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
+        const carritoBuscado = this.file[indiceBuscado]
+        const products =carritoBuscado.products[0]
+        console.log(products)
+        if (products.product == pid){
+            products.quantity = products.quantity + 1
+            carritoBuscado.products = products
+            this.file[indiceBuscado] = carritoBuscado
             await this.saveFile()
         }else{
-            this.shared.products.push({"quantity":+1})
+            carritoBuscado.products[0] = {"product":pid,"quantity":1}
+            this.file[indiceBuscado] = carritoBuscado
             await this.saveFile()
+            console.log('pasa algo')
         }
-        //this.shared.products.push({"product":pid})
-       // await this.saveFile()
+        //console.log(carritoBuscado)
+       /*if(carritoBuscado[0] == undefined){
+            carritoBuscado.products[0] = {"product":cid,"quantity":1}
+            this.file[indiceBuscado] = carritoBuscado
+            await this.saveFile()
+        }else{
+            console.log('carritoBuscado')
+        }
+        /*const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
+        console.log(indiceBuscado)
+        const carritoBuscado = this.file[indiceBuscado]
+        carritoBuscado.products[0] = {"product":cid,"quantity":1}
+        console.log( carritoBuscado )
+        this.file[indiceBuscado] = carritoBuscado
+        await this.saveFile()*/
+        /*try {
+            await this.readFile()
+            const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
+            /*console.log(indiceBuscado)
+            const carritoBuscado = this.file[indiceBuscado]
+            const products = carritoBuscado.products[0]
+            products.quantity = 1
+            if (products.product == pid){
+                products.quantity = products.quantity + 1
+                carritoBuscado.products = products
+                this.file[indiceBuscado] = carritoBuscado
+                await this.saveFile()
+            }else{
+                console.log('pasa algo')
+            }
+        } catch (error) {
+            throw new Error('Error al agregar producto')
+        }*/
     }
+
 
     async deleteobjet(id){//Ingreso como parametro el ID para buscar y eliminar el producto
         try {
