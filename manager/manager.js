@@ -71,52 +71,35 @@ export class Manager{// Creo la clase manager como administradora universal
         await this.readFile()
         const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
         const carritoBuscado = this.file[indiceBuscado]
-        const products =carritoBuscado.products[0]
-        console.log(products)
-        if (products.product == pid){
-            products.quantity = products.quantity + 1
-            carritoBuscado.products = products
+        console.log(carritoBuscado.id)
+        const indiceCarrito = this.file.findIndex(carrito => carrito.id == carritoBuscado.id)
+        console.log(indiceCarrito)
+        const products =  this.file[indiceCarrito]
+        console.log(products.products)
+        if (products.products.product == pid){
+            //console.log(products.products.quantity)
+            products.products.quantity = products.products.quantity + 1
+            //console.log(products.products)
+            carritoBuscado.products = products.products
+            //console.log(carritoBuscado.products)
             this.file[indiceBuscado] = carritoBuscado
             await this.saveFile()
         }else{
-            carritoBuscado.products[0] = {"product":pid,"quantity":1}
-            this.file[indiceBuscado] = carritoBuscado
+            //console.log('pasa algo')
+            carritoBuscado.products = {"product":pid,"quantity":1}
+            this.file.push(carritoBuscado)
             await this.saveFile()
-            console.log('pasa algo')
         }
-        //console.log(carritoBuscado)
-       /*if(carritoBuscado[0] == undefined){
-            carritoBuscado.products[0] = {"product":cid,"quantity":1}
-            this.file[indiceBuscado] = carritoBuscado
-            await this.saveFile()
-        }else{
-            console.log('carritoBuscado')
-        }
-        /*const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
-        console.log(indiceBuscado)
+    }
+
+    async getCartById(cid){
+        await this.readFile()
+        const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
         const carritoBuscado = this.file[indiceBuscado]
-        carritoBuscado.products[0] = {"product":cid,"quantity":1}
-        console.log( carritoBuscado )
-        this.file[indiceBuscado] = carritoBuscado
-        await this.saveFile()*/
-        /*try {
-            await this.readFile()
-            const indiceBuscado = this.file.findIndex(carrito => carrito.id == cid)
-            /*console.log(indiceBuscado)
-            const carritoBuscado = this.file[indiceBuscado]
-            const products = carritoBuscado.products[0]
-            products.quantity = 1
-            if (products.product == pid){
-                products.quantity = products.quantity + 1
-                carritoBuscado.products = products
-                this.file[indiceBuscado] = carritoBuscado
-                await this.saveFile()
-            }else{
-                console.log('pasa algo')
-            }
-        } catch (error) {
-            throw new Error('Error al agregar producto')
-        }*/
+        const indiceCarrito = this.file.findIndex(carrito => carrito.id == carritoBuscado.id)
+        console.log(indiceCarrito)
+        const products =  this.file[indiceCarrito]
+        return products
     }
 
 

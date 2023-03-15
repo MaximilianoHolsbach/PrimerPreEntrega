@@ -17,6 +17,11 @@ cartRouter.post('/api/carts/', async (req, res, next)=>{
 
 cartRouter.post('/api/carts/:cid/product/:pid', async (req, res, next)=>{
     const carrito = await adminProduct.updatecart(req.params.cid,req.params.pid)
-    //const carrito[product] = await adminProduct.addObjet()
     res.json(carrito)
 })
+
+cartRouter.get('/api/carts/:cid', async (req, res, next)=>{
+    const carrito = await adminProduct.getCartById(req.params.cid,)
+    res.json(carrito)
+})
+
